@@ -1,0 +1,95 @@
+package net.hoeka.lucas_hoelmer.citkomm.test;
+
+
+
+//Start erste Klasse------------------------------------------------
+public class Sudoku { 
+	
+	
+//Variablen---------------------------------------------------------	
+	  private static final int Variable = 0;  
+	  private static final int N = 9;  
+	  
+	  
+	  
+//Sudoku Ausgabe----------------------------------------------------	  
+	  static public void ausgabe_Sudoku(int[][] sudoku_array) { 
+		  System.out.println("---------------------------");
+	   for (int i = 0; i < N; i++) {  
+	    for (int j = 0; j < N; j++)  
+	     System.out.print(sudoku_array[i][j] + " ");
+	    
+	    System.out.println();  
+	   }  
+	   System.out.println("---------------------------");
+	  }
+	  
+	  
+	  
+//Sudoku Felder lösen-----------------------------------------------	  
+	  static boolean löse(int reihen, int col, int[][] zeilen) {  
+	   if (reihen == 9) {  
+		reihen = 0;  
+	    if (++col == 9)  
+	     return true;  
+	   }  
+	   if (zeilen[reihen][col] != Variable) 
+	    return löse(reihen + 1, col, zeilen);  
+	   for (int val = 1; val <= 9; ++val) {  
+	    if (speicher(reihen, col, val, zeilen)) {  
+	    	zeilen[reihen][col] = val;  
+	     if (löse(reihen + 1, col, zeilen))  
+	      return true;  
+	    }  
+	   }  
+	   zeilen[reihen][col] = Variable;   
+	   return false;  
+	  }  
+	  
+	  
+//Sudoku Felder Speichern----------------------------------------------	  
+	  static boolean speicher(int row, int col, int val, int[][] zeilen) {  
+	   for (int k = 0; k < 9; ++k)  
+		   
+		   
+//Reihe----------------------------------------------------------------		   
+	    if (val == zeilen[k][col])  
+	     return false;  
+	   for (int k = 0; k < 9; ++k)  
+	    // col  
+	    if (val == zeilen[row][k])  
+	     return false;  
+	   int boxRowOffset = (row / 3) * 3;  
+	   int boxColOffset = (col / 3) * 3;  
+	   for (int k = 0; k < 3; ++k)  
+		   
+		   
+//Box------------------------------------------------------------------		   
+	    for (int m = 0; m < 3; ++m)  
+	     if (val == zeilen[boxRowOffset + k][boxColOffset + m])  
+	      return false;  
+	   return true;  
+	  } 
+	  public static void main(String[] args) {
+		  
+		  
+//Sudoku array--------------------------------------------------------
+	   int sudoku_array[][] = 
+		 { 
+		 { 3, 0, 4, 0, 0, 0, 6, 0, 2 },  
+	     { 9, 0, 0, 6, 2, 7, 0, 0, 4 }, 
+	     { 6, 0, 0, 1, 0, 4, 0, 0, 7 },  
+	     { 2, 4, 9, 0, 0, 0, 7, 3, 1 }, 
+	     { 1, 6, 0, 0, 0, 0, 0, 8, 5 },  
+	     { 0, 8, 9, 0, 0, 0, 4, 6, 0 }, 
+	     { 7, 0, 0, 8, 0, 5, 0, 0, 3 },  
+	     { 0, 0, 0, 2, 6, 3, 0, 0, 0 }, 
+	     { 8, 0, 5, 0, 0, 0, 9, 0, 6 } 
+	     };
+	   
+	   
+//Sudoku Lösen-------------------------------------------------------	   
+	   löse(0, 0, sudoku_array);  
+	   ausgabe_Sudoku(sudoku_array);  
+	  }  
+	 } 
